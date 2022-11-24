@@ -1,0 +1,27 @@
+a {
+  color: #1db954;
+  font-size: large;
+  font-weight: bold;
+}
+a:hover {
+  color: hsl(141, 74%, 30%);
+  background-color: transparent;
+  text-decoration: none;
+}
+
+.header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.failed {
+  color: red;
+  font-size: large;
+  font-weight: bold;
+}
