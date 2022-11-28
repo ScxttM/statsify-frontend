@@ -15,7 +15,7 @@ const Navigation = () => {
                                 <Link className="nav-link" to="/topTracks"> Top Tracks </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/topArtist"> Top Artist </Link>
+                                <Link className="nav-link" to="/topArtists"> Top Artist </Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to="/history"> History </Link>
@@ -25,7 +25,6 @@ const Navigation = () => {
                             </li>
                         </ul>
                     </div>
-
                 </div>
             </nav>
             <Outlet />

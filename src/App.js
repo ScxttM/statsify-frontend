@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Routes, Route, } from 'react-router-dom';
 import './App.css';
@@ -7,7 +7,10 @@ import './App.css';
 import Navigation from './components/Navigation';
 import Login from './pages/Login';
 import Home from './pages/Home';
+import TopTracks from './pages/TopTracks';
+import TopArtists from './pages/TopArtists';
 import History from './pages/History';
+import Profile from './pages/Profile';
 
 function setToken(userToken) {
   window.history.replaceState({}, document.title, "/");
@@ -22,7 +25,7 @@ function getToken() {
 
 function App() {
   const urlParams = new URLSearchParams(window.location.search);
-  const [isUserAuthorized, setIsAuthorized] = useState(urlParams.has("authorized") ? true : false);
+  const [isUserAuthorized] = useState(urlParams.has("authorized") ? true : false);
   if (isUserAuthorized) {
     setToken(urlParams.get("access_token"));
   }
@@ -42,7 +45,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigation />}>
             <Route index element={<Home />} />
-            <Route path="history" element={<History />} />
+            <Route path="topTracks" element={<TopTracks />} />
+            <Route path="topArtists" element={<TopArtists />} />
+            <Route path="history" element={<History token={token} />} />
+            <Route path="profile/me" element={<Profile />} />
             <Route path="*" element={<Home />} />
           </Route>
         </Routes>
