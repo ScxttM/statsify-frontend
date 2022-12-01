@@ -82,7 +82,7 @@ function refreshToken() {
 }
 
 function App() {
-  const [token, setToken] = useState([]);
+  const [token, setToken] = useState(undefined);
   const [userProfile, setUserProfile] = useState(JSON.parse(sessionStorage.getItem('userProfile')));
   const [authorized, setAuthorized] = useState(false);
 
@@ -92,6 +92,8 @@ function App() {
         setUserProfile(JSON.parse(sessionStorage.getItem('userProfile')));
         setAuthorized(true);
       });
+    } else {
+      setAuthorized(false);
     }
   }, [token]);
 
