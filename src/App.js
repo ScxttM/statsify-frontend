@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
 import 'jquery/dist/jquery.min.js';
-import { BrowserRouter, Routes, Route, } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, redirect, Outlet } from 'react-router-dom';
 import axios from 'axios';
 // import format from 'date-fns/format';
 import Navigation from './components/Navigation';
@@ -56,10 +56,11 @@ function getToken() {
 }
 
 function saveToken(userToken, refreshToken) {
-  window.history.replaceState({}, document.title, "/");
+  window.location.href = '/';
   sessionStorage.setItem('token', JSON.stringify(userToken));
   sessionStorage.setItem('refreshToken', JSON.stringify(refreshToken));
 }
+
 
 function refreshToken() {
   const refreshToken = sessionStorage.getItem('refreshToken');
@@ -82,7 +83,7 @@ function refreshToken() {
 }
 
 function App() {
-  const [token, setToken] = useState(undefined);
+  const [token, setToken] = useState(getToken());
   const [userProfile, setUserProfile] = useState(JSON.parse(sessionStorage.getItem('userProfile')));
   const [authorized, setAuthorized] = useState(false);
 
@@ -102,13 +103,13 @@ function App() {
     setAuthorized(true);
   }
 
-  if (!authorized) {
+  if (!token) {
     return (
       <div className='App'>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Login />} />
-            <Route path="/login/callback" index element={<Login handleAuth={handleAuth} saveToken={saveToken} auth={true} />} />
+            <Route path="/login/callback" element={<Login handleAuth={handleAuth} saveToken={saveToken} auth={true} />} />
           </Routes>
         </BrowserRouter>
       </div>
@@ -119,12 +120,11 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Navigation />}>
-            <Route index element={<TopTracks token={token} refreshToken={refreshToken} />} />
+            <Route path="*" index element={<TopTracks token={token} refreshToken={refreshToken} />} />
             <Route path="topTracks" element={<TopTracks token={token} refreshToken={refreshToken} />} />
             <Route path="topArtists" element={<TopArtists token={token} refreshToken={refreshToken} />} />
             <Route path="history" element={<History token={token} refreshToken={refreshToken} userProfile={userProfile} />} />
             <Route path="profile/me" element={<Profile refreshToken={refreshToken} userProfile={userProfile} />} />
-            <Route path="*" element={<TopTracks token={token} refreshToken={refreshToken} />} />
             <Route path="track/:id" element={<Track token={token} refreshToken={refreshToken} />} />
             <Route path="artist/:id" element={<Track token={token} refreshToken={refreshToken} />} />
           </Route>

@@ -11,8 +11,8 @@ async function getAccessToken() {
             'Content-Type': 'application/json',
         },
     };
-    const url = process.env.REACT_APP_API_URL + `/login/callback?code=${code}`;
-    const response = await axios.get(url, { code: code }, config).catch(error => {
+    const url = process.env.REACT_APP_API_URL + `/login/callback/?code=${code}`;
+    const response = await axios.get(url, {}, config).catch(error => {
         console.log(error);
     });
     // console.log(response.data);
@@ -25,15 +25,15 @@ function Login(props) {
     const [authorized, setAuthorized] = useState(false);
 
     useEffect(() => {
-        if (props.auth || urlParams.get('code') !== null) {
+        if (props.auth) {
             getAccessToken().then(data => {
-                console.log(data);
+                // console.log(data);
                 props.saveToken(data.access_token, data.refresh_token);
                 props.handleAuth();
                 setAuthorized(true);
             });
         }
-    }, [props]);
+    }, [props],);
 
     if (authorized) {
         window.location.href = '/';
