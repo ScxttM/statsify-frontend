@@ -27,7 +27,7 @@ function Login(props) {
     useEffect(() => {
         if (props.callback || urlParams.get('code') !== null) {
             getAccessToken().then(data => {
-                // console.log(data);
+                console.log(data);
                 props.saveToken(data.access_token, data.refresh_token);
                 props.handleAuth();
                 setAuthorized(true);
