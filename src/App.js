@@ -109,25 +109,36 @@ function App() {
         </BrowserRouter>
       </div>
     );
+  } else if (token && userProfile) {
+    return (
+      <div className="App">
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Navigation />}>
+              <Route index element={<TopTracks token={token} refreshToken={refreshToken} />} />
+              <Route path="topTracks" element={<TopTracks token={token} refreshToken={refreshToken} />} />
+              <Route path="topArtists" element={<TopArtists token={token} refreshToken={refreshToken} />} />
+              <Route path="history" element={<History token={token} refreshToken={refreshToken} userProfile={userProfile} />} />
+              <Route path="profile/me" element={<Profile refreshToken={refreshToken} userProfile={userProfile} />} />
+              <Route path="*" element={<TopTracks token={token} refreshToken={refreshToken} />} />
+              <Route path="track/:id" element={<Track token={token} refreshToken={refreshToken} />} />
+              <Route path="artist/:id" element={<Track token={token} refreshToken={refreshToken} />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </div>
+    );
+  } else {
+    return (
+      <div className='App'>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/login/callback" element={<Login handleAuth={handleAuth} saveToken={saveToken} callback={true} />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
+    );
   }
-  return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Navigation />}>
-            <Route index element={<TopTracks token={token} refreshToken={refreshToken} />} />
-            <Route path="topTracks" element={<TopTracks token={token} refreshToken={refreshToken} />} />
-            <Route path="topArtists" element={<TopArtists token={token} refreshToken={refreshToken} />} />
-            <Route path="history" element={<History token={token} refreshToken={refreshToken} userProfile={userProfile} />} />
-            <Route path="profile/me" element={<Profile refreshToken={refreshToken} userProfile={userProfile} />} />
-            <Route path="*" element={<TopTracks token={token} refreshToken={refreshToken} />} />
-            <Route path="track/:id" element={<Track token={token} refreshToken={refreshToken} />} />
-            <Route path="artist/:id" element={<Track token={token} refreshToken={refreshToken} />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </div>
-  );
 }
 
 export default App;
