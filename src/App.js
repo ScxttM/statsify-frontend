@@ -49,7 +49,6 @@ async function profileSync(user) {
   });
 }
 
-
 function getToken() {
   const tokenString = sessionStorage.getItem('token');
   const userToken = JSON.parse(tokenString);
@@ -83,7 +82,7 @@ function refreshToken() {
 }
 
 function App() {
-  const [token, setToken] = useState(getToken());
+  const [token, setToken] = useState([]);
   const [userProfile, setUserProfile] = useState(JSON.parse(sessionStorage.getItem('userProfile')));
   const [authorized, setAuthorized] = useState(false);
 
