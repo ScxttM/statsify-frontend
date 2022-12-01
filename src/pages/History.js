@@ -15,9 +15,22 @@ async function getMusicHistory(token) {
         },
     };
     const url = 'https://api.spotify.com/v1/me/player/recently-played?limit=25';
-    const response = await axios.get(url, config);
+    const response = await axios.get(url, config).catch(error => {
+        console.log(error);
+    });
     // console.log(response.data);
     return response.data.items;
+}
+
+async function syncDB(data) {
+    const config = {
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+    };
+    const url = process.env.REACT_APP_API_URL + '/api/history';
+    await axios.post(url, data, config);
 }
 
 function History(props) {
@@ -28,8 +41,12 @@ function History(props) {
     useEffect(() => {
         getMusicHistory(token).then(data => {
             setMusicHistory(data);
-        });
+            if (data.length > 0) {
+                syncDB(data);
+            }
+        })
     }, [token]);
+
 
     function handleClick(id) {
         navigate(`/track/${id}`);

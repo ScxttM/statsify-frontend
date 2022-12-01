@@ -13,11 +13,7 @@ import TopTracks from './pages/TopTracks';
 import TopArtists from './pages/TopArtists';
 import History from './pages/History';
 import Profile from './pages/Profile';
-
-function setToken(userToken) {
-  window.history.replaceState({}, document.title, "/");
-  sessionStorage.setItem('token', JSON.stringify(userToken));
-}
+import Track from './pages/Track';
 
 function getToken() {
   const tokenString = sessionStorage.getItem('token');
@@ -25,19 +21,28 @@ function getToken() {
   return userToken ? userToken : undefined;
 }
 
+function saveToken(userToken, refreshToken) {
+  window.history.replaceState({}, document.title, "/");
+  sessionStorage.setItem('token', JSON.stringify(userToken));
+  sessionStorage.setItem('refreshToken', JSON.stringify(refreshToken));
+}
+
 function App() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const [isUserAuthorized] = useState(urlParams.has("authorized") ? true : false);
-  if (isUserAuthorized) {
-    setToken(urlParams.get("access_token"));
+  const [token, setToken] = useState(getToken());
+
+  function handleAuth() {
+    setToken(getToken());
   }
-  // const token = getToken();
-  const token = getToken();
 
   if (!token) {
     return (
       <div className='App'>
-        <Login setToken={setToken} />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="login/callback/*" element={<Login handleAuth={handleAuth} saveToken={saveToken} callback={true} />} />
+          </Routes>
+        </BrowserRouter>
       </div>
     );
   }
@@ -52,6 +57,7 @@ function App() {
             <Route path="history" element={<History token={token} />} />
             <Route path="profile/me" element={<Profile />} />
             <Route path="*" element={<Home />} />
+            <Route path="track/:id" element={<Track token={token} />} />
           </Route>
         </Routes>
       </BrowserRouter>
