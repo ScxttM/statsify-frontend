@@ -107,7 +107,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Login />} />
-            <Route path="login/callback/" index element={<Login handleAuth={handleAuth} saveToken={saveToken} callback={true} />} />
+            <Route path="/login/callback" index element={<Login handleAuth={handleAuth} saveToken={saveToken} auth={true} />} />
           </Routes>
         </BrowserRouter>
       </div>

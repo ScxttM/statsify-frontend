@@ -25,7 +25,7 @@ function Login(props) {
     const [authorized, setAuthorized] = useState(false);
 
     useEffect(() => {
-        if (props.callback || urlParams.get('code') !== null) {
+        if (props.auth || urlParams.get('code') !== null) {
             getAccessToken().then(data => {
                 console.log(data);
                 props.saveToken(data.access_token, data.refresh_token);
