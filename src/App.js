@@ -9,7 +9,7 @@ import axios from 'axios';
 // import format from 'date-fns/format';
 import Navigation from './components/Navigation';
 import Login from './pages/Login';
-// import Home from './pages/Home';
+import Home from './pages/Home';
 import TopTracks from './pages/TopTracks';
 import TopArtists from './pages/TopArtists';
 import History from './pages/History';
@@ -62,7 +62,7 @@ function saveToken(userToken, refreshToken) {
   sessionStorage.setItem('refreshToken', JSON.stringify(refreshToken));
 }
 
-async function refreshToken() {
+function refreshToken() {
   const refreshToken = sessionStorage.getItem('refreshToken');
   const url = process.env.REACT_APP_API_URL + '/refresh_token';
   const data = {
@@ -74,7 +74,7 @@ async function refreshToken() {
       'Content-Type': 'application/json',
     },
   };
-  await axios.get(url, data, config).then(response => {
+  axios.get(url, data, config).then(response => {
     if (response.data.access_token) {
       console.log('Token refreshed');
       sessionStorage.setItem('token', JSON.stringify(response.data.access_token));
@@ -98,47 +98,36 @@ function App() {
     setToken(getToken());
   }
 
-  if (!token) {
+  if (!token || token === undefined) {
     return (
       <div className='App'>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Login />} />
-            <Route path="/login/callback" element={<Login handleAuth={handleAuth} saveToken={saveToken} callback={true} />} />
-          </Routes>
-        </BrowserRouter>
-      </div>
-    );
-  } else if (token && userProfile) {
-    return (
-      <div className="App">
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Navigation />}>
-              <Route index element={<TopTracks token={token} refreshToken={refreshToken} />} />
-              <Route path="topTracks" element={<TopTracks token={token} refreshToken={refreshToken} />} />
-              <Route path="topArtists" element={<TopArtists token={token} refreshToken={refreshToken} />} />
-              <Route path="history" element={<History token={token} refreshToken={refreshToken} userProfile={userProfile} />} />
-              <Route path="profile/me" element={<Profile refreshToken={refreshToken} userProfile={userProfile} />} />
-              <Route path="*" element={<TopTracks token={token} refreshToken={refreshToken} />} />
-              <Route path="track/:id" element={<Track token={token} refreshToken={refreshToken} />} />
-              <Route path="artist/:id" element={<Track token={token} refreshToken={refreshToken} />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </div>
-    );
-  } else {
-    return (
-      <div className='App'>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/login/callback" element={<Login handleAuth={handleAuth} saveToken={saveToken} callback={true} />} />
+            <Route path="login/callback/*" element={<Login handleAuth={handleAuth} saveToken={saveToken} callback={true} />} />
           </Routes>
         </BrowserRouter>
       </div>
     );
   }
+  return (
+    <div className="App">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Navigation />}>
+            <Route index element={<TopTracks token={token} refreshToken={refreshToken} />} />
+            <Route path="topTracks" element={<TopTracks token={token} refreshToken={refreshToken} />} />
+            <Route path="topArtists" element={<TopArtists token={token} refreshToken={refreshToken} />} />
+            <Route path="history" element={<History token={token} refreshToken={refreshToken} userProfile={userProfile} />} />
+            <Route path="profile/me" element={<Profile refreshToken={refreshToken} userProfile={userProfile} />} />
+            <Route path="*" element={<TopTracks token={token} refreshToken={refreshToken} />} />
+            <Route path="track/:id" element={<Track token={token} refreshToken={refreshToken} />} />
+            <Route path="artist/:id" element={<Track token={token} refreshToken={refreshToken} />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
 }
 
 export default App;
