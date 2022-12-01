@@ -15,7 +15,7 @@ async function getAccessToken() {
     const response = await axios.get(url, {}, config).catch(error => {
         console.log(error);
     });
-    // console.log(response.data);
+    console.log(response.data);
     return response.data;
 }
 
@@ -23,6 +23,8 @@ function Login(props) {
     const apiUrl = process.env.REACT_APP_API_URL;
     const urlParams = new URLSearchParams(window.location.search);
     const [authorized, setAuthorized] = useState(false);
+
+    console.log(props);
 
     useEffect(() => {
         if (props.auth) {
@@ -33,7 +35,16 @@ function Login(props) {
                 setAuthorized(true);
             });
         }
-    }, [props],);
+    }, [props]);
+
+    // useEffect(() => {
+    //     if (urlParams.get('access_token')) {
+    //         props.saveToken(urlParams.get('access_token'), urlParams.get('refresh_token'));
+    //         props.handleAuth();
+    //         setAuthorized(true);
+    //     }
+    // }, [props, urlParams]);
+
 
     if (authorized) {
         window.location.href = '/';
