@@ -16,6 +16,7 @@ async function getAccessToken() {
         console.log(error);
     });
     console.log(response.data);
+    window.location.href = '/';
     return response.data;
 }
 

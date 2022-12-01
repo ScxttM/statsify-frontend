@@ -83,12 +83,12 @@ function refreshToken() {
 }
 
 function App() {
-  const [token, setToken] = useState(undefined);
+  const [token, setToken] = useState(getToken());
   const [userProfile, setUserProfile] = useState(JSON.parse(sessionStorage.getItem('userProfile')));
   // const [authorized, setAuthorized] = useState(false);
 
   useEffect(() => {
-    if (token !== undefined) {
+    if (token) {
       getCurrentUserProfile(token).then(() => {
         setUserProfile(JSON.parse(sessionStorage.getItem('userProfile')));
         // setAuthorized(true);
