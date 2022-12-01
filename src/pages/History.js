@@ -2,6 +2,7 @@ import format from "date-fns/format";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./History.css";
+import { useNavigate } from 'react-router-dom';
 
 // const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -22,6 +23,7 @@ async function getMusicHistory(token) {
 function History(props) {
     const token = props.token;
     const [musicHistory, setMusicHistory] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         getMusicHistory(token).then(data => {
@@ -29,8 +31,12 @@ function History(props) {
         });
     }, [token]);
 
+    function handleClick(id) {
+        navigate(`/track/${id}`);
+    }
+
     const TableItem = (item, index) => (
-        <tr key={item.played_at}>
+        < tr key={item.played_at} onClick={() => handleClick(item.track.id)}>
             <td>{index + 1}</td>
             <td>{item.track.name}</td>
             <td>{format(new Date(item.played_at), "d MMM yyyy, hh:mma")}</td>
@@ -40,7 +46,7 @@ function History(props) {
     const RecentlyPlayed = () => (
         <div className="recently-played">
             <h2>Recent Tracks</h2>
-            <table className="table table-dark table-striped">
+            <table className="table table-dark table-hover">
                 <thead>
                     <tr>
                         <th>#</th>

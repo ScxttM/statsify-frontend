@@ -1,6 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap';
+import 'jquery/dist/jquery.min.js';
 import { BrowserRouter, Routes, Route, } from 'react-router-dom';
 import './App.css';
 // import format from 'date-fns/format';
