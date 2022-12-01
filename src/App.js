@@ -85,26 +85,29 @@ function refreshToken() {
 function App() {
   const [token, setToken] = useState(getToken());
   const [userProfile, setUserProfile] = useState(JSON.parse(sessionStorage.getItem('userProfile')));
+  const [authorized, setAuthorized] = useState(false);
 
   useEffect(() => {
     if (token) {
       getCurrentUserProfile(token).then(() => {
         setUserProfile(JSON.parse(sessionStorage.getItem('userProfile')));
+        setAuthorized(true);
       });
     }
   }, [token]);
 
   function handleAuth() {
     setToken(getToken());
+    setAuthorized(true);
   }
 
-  if (!token || token === undefined) {
+  if (!authorized) {
     return (
       <div className='App'>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Login />} />
-            <Route path="login/callback/*" element={<Login handleAuth={handleAuth} saveToken={saveToken} callback={true} />} />
+            <Route path="login/callback/" index element={<Login handleAuth={handleAuth} saveToken={saveToken} callback={true} />} />
           </Routes>
         </BrowserRouter>
       </div>
