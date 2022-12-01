@@ -85,7 +85,7 @@ function History(props) {
 
     const RecentlyPlayed = () => (
         <div className="recently-played">
-            <h1>Recent Tracks</h1>
+            <h1>Recently played Tracks</h1>
             <table className="table table-light table-hover">
                 <thead className="table-dark">
                     <tr>

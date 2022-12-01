@@ -4,17 +4,17 @@ import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
 import 'jquery/dist/jquery.min.js';
-import { BrowserRouter, Routes, Route, redirect, Outlet } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 // import format from 'date-fns/format';
 import Navigation from './components/Navigation';
 import Login from './pages/Login';
-import Home from './pages/Home';
 import TopTracks from './pages/TopTracks';
 import TopArtists from './pages/TopArtists';
 import History from './pages/History';
 import Profile from './pages/Profile';
 import Track from './pages/Track';
+import Home from './pages/Home';
 
 async function getCurrentUserProfile(token) {
   const config = {
@@ -56,7 +56,7 @@ function getToken() {
 }
 
 function saveToken(userToken, refreshToken) {
-  window.location.href = '/';
+  window.history.replaceState({}, document.title, "/");
   sessionStorage.setItem('token', JSON.stringify(userToken));
   sessionStorage.setItem('refreshToken', JSON.stringify(refreshToken));
 }
@@ -85,22 +85,20 @@ function refreshToken() {
 function App() {
   const [token, setToken] = useState(getToken());
   const [userProfile, setUserProfile] = useState(JSON.parse(sessionStorage.getItem('userProfile')));
-  const [authorized, setAuthorized] = useState(false);
+  // const [authorized, setAuthorized] = useState(false);
 
   useEffect(() => {
     if (token) {
       getCurrentUserProfile(token).then(() => {
         setUserProfile(JSON.parse(sessionStorage.getItem('userProfile')));
-        setAuthorized(true);
+        // setAuthorized(true);
       });
-    } else {
-      setAuthorized(false);
     }
   }, [token]);
 
   function handleAuth() {
     setToken(getToken());
-    setAuthorized(true);
+    // setAuthorized(true);
   }
 
   if (!token) {
@@ -109,7 +107,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Login />} />
-            <Route path="/login/callback" element={<Login handleAuth={handleAuth} saveToken={saveToken} auth={true} />} />
+            <Route path="/login/callback/*" element={<Login handleAuth={handleAuth} saveToken={saveToken} auth={true} />} />
           </Routes>
         </BrowserRouter>
       </div>
@@ -120,7 +118,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Navigation />}>
-            <Route path="*" index element={<TopTracks token={token} refreshToken={refreshToken} />} />
+            <Route index element={<Home />} />
             <Route path="topTracks" element={<TopTracks token={token} refreshToken={refreshToken} />} />
             <Route path="topArtists" element={<TopArtists token={token} refreshToken={refreshToken} />} />
             <Route path="history" element={<History token={token} refreshToken={refreshToken} userProfile={userProfile} />} />

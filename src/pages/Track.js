@@ -133,12 +133,6 @@ function Track(props) {
                 </div>
             </div>
         );
-    } else {
-        return (
-            <div className="container m-3">
-                <h1>The track you're looking for, doesn't exist.</h1 >
-            </div>
-        );
     }
 }
 export default Track;
