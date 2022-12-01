@@ -62,7 +62,7 @@ function saveToken(userToken, refreshToken) {
   sessionStorage.setItem('refreshToken', JSON.stringify(refreshToken));
 }
 
-function refreshToken() {
+async function refreshToken() {
   const refreshToken = sessionStorage.getItem('refreshToken');
   const url = process.env.REACT_APP_API_URL + '/refresh_token';
   const data = {
@@ -74,7 +74,7 @@ function refreshToken() {
       'Content-Type': 'application/json',
     },
   };
-  axios.get(url, data, config).then(response => {
+  await axios.get(url, data, config).then(response => {
     if (response.data.access_token) {
       console.log('Token refreshed');
       sessionStorage.setItem('token', JSON.stringify(response.data.access_token));

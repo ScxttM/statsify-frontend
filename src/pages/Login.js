@@ -12,7 +12,7 @@ async function getAccessToken() {
         },
     };
     const url = process.env.REACT_APP_API_URL + `/login/callback?code=${code}`;
-    const response = await axios.get(url, {}, config).catch(error => {
+    const response = await axios.get(url, { code: code }, config).catch(error => {
         console.log(error);
     });
     // console.log(response.data);
@@ -33,7 +33,7 @@ function Login(props) {
                 setAuthorized(true);
             });
         }
-    }, [props],);
+    }, [props]);
 
     if (authorized) {
         window.location.href = '/';
