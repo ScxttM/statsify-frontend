@@ -7,7 +7,29 @@
   /* align-items: center; */
   /* justify-content: center; */
   /* font-size: calc(10px + 2vmin); */
+  color: lightgray;
+}
+
+table {
+  font-size: medium;
+}
+
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
   color: white;
+}
+
+h2 {
+  font-size: 1.5em;
+  margin: 0.83em 0;
+  color: white;
+}
+
+p {
+  font-size: 0.8em;
+  margin: 0.67em 0;
+  color: lightgray;
 }
 
 .App-logo {
@@ -33,7 +55,7 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color: #14853c;
 }
 
 @keyframes App-logo-spin {

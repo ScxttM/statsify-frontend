@@ -15,7 +15,7 @@ async function getAccessToken() {
     const response = await axios.get(url, {}, config).catch(error => {
         console.log(error);
     });
-    console.log(response.data);
+    // console.log(response.data);
     return response.data;
 }
 
@@ -27,7 +27,7 @@ function Login(props) {
     useEffect(() => {
         if (props.callback) {
             getAccessToken().then(data => {
-                console.log(data);
+                // console.log(data);
                 props.saveToken(data.access_token, data.refresh_token);
                 props.handleAuth();
                 setAuthorized(true);

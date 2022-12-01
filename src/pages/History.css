@@ -1,8 +1,3 @@
 table {
   font-size: medium;
-  color: white;
-}
-
-tbody tr:hover {
-  color: hsl(141, 74%, 30%);
 }

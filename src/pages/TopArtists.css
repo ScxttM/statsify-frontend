@@ -1,0 +1,28 @@
+img {
+  width: auto;
+  height: 300px;
+  object-fit: cover;
+}
+
+.card {
+  width: 340px;
+  height: 450px;
+  margin: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 10px;
+  color: black;
+}
+
+.card-text {
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 10px;
+  color: black;
+}
